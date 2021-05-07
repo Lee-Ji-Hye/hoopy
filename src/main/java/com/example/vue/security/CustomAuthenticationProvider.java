@@ -33,12 +33,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         try {
         	user = (User) userDetailsService.loadUserByUsername(username);
         }catch(NullPointerException e) {
-        	throw new BadCredentialsException("NotExistUserId");
+        	throw new BadCredentialsException("BadCredentialException");
         }
         
         // password 일치하지 않으면!
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new BadCredentialsException("BadCredentialsException");
+            throw new BadCredentialsException("BadCredentialException");
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), null, 
         																								  user.getAuthorities());

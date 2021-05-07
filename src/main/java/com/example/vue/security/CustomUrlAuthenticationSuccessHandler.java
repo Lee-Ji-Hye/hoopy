@@ -20,9 +20,6 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 
 import com.example.vue.model.JSONResult;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 	@Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -49,8 +46,9 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
         MediaType jsonMimeType = MediaType.APPLICATION_JSON;
 
-        JSONResult jsonResult = JSONResult.success(user); 
-        log.info("jsonResult : " + jsonResult);
+        JSONResult jsonResult = JSONResult.success(user);
+        jsonResult.setMessage("LoginSuccess");
+        
         if (jsonConverter.canWrite(jsonResult.getClass(), jsonMimeType)) {
             jsonConverter.write(jsonResult, jsonMimeType, new ServletServerHttpResponse(response));
         }

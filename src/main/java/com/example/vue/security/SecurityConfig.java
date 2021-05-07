@@ -1,8 +1,12 @@
 package com.example.vue.security;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -69,11 +73,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/user/myinfo").hasRole("MEMBER")
-                    .antMatchers("/**").permitAll()
+                    .antMatchers("/api/member/**").hasRole("MEMBER")
+                    .antMatchers("/loginSuccess").hasRole("MEMBER")
+                    .antMatchers("/loginPage").permitAll()
+                    .antMatchers("/").permitAll()
                .and()
                     .formLogin()
+                    .loginPage("/")
                     .loginProcessingUrl("/api/login")
                     .successHandler(authenticationSuccessHandler())
                     .failureHandler(authenticationFailureHandler())
@@ -85,7 +91,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                     .exceptionHandling()
-                    .accessDeniedPage("/error");
+                    .accessDeniedPage("/error")
+                .and()
+                	.sessionManagement().maximumSessions(1);
         http.headers().frameOptions().disable();
     }
     

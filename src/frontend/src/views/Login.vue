@@ -10,6 +10,9 @@
       <input type="text" id="password" v-model="password">
     </div>
     <div>
+      <label id="reason">{{reason}}</label>
+    </div>
+    <div>
       <button type="button" @click="login">로그인</button>
     </div>
   </div>
@@ -19,10 +22,11 @@
 import axios from 'axios'
 
 export default {
-  name: 'HelloWorld',
+  name: 'Login',
   data () {
     return {
-      token: ''
+      token: '',
+      reason: ''
     }
   },
   mounted () {
@@ -46,7 +50,12 @@ export default {
         }
       }).then(response => {
         console.log('response: ', response)
-        this.$router.push('/about')
+        if(response.data.message == 'LoginSuccess'){
+          this.$router.push('/LoginSuccess')
+        }else{
+          this.$router.push('/LoginPage')
+          this.reason = 'ID와 PW를 확인해주세요.'
+        }
       }).catch(error => {
         console.log('error: ', error.response)
       })

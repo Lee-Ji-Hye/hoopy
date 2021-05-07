@@ -1,5 +1,7 @@
 package com.example.vue.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.csrf.CsrfToken;
@@ -9,16 +11,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @RequestMapping("/api")
-@Slf4j
 public class VueController {
 	
-	@GetMapping("/hello")
+	@GetMapping("/member/hello")
 	public String hello() {
 		return "hello";
+	}
+	
+	@GetMapping("/userInfo")
+	public String userInfo(Principal principal) {
+		String name;
+		try {
+			name = principal.getName();
+		}catch(NullPointerException e) {
+			return "로그인해주세요.";
+		}
+		return name;
 	}
 	
 	@RequestMapping(value="/csrf-token", method=RequestMethod.GET)

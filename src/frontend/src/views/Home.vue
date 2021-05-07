@@ -1,18 +1,23 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld/>
+  <div>
+    <div>
+      <h2>나의 롤링페이퍼</h2>
+      <h5>남이 생각하는 나는</h5>
+      <h5>어떤 모습일까?</h5>
+    </div>
+    <div>
+      <button type="button" id="start" @click="start">시작하기</button>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  methods: {
+    start() {
+      this.$router.push('/welcome')
+    }
   }
 }
 </script>
