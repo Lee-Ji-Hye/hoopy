@@ -1,4 +1,4 @@
-package com.example.vue.security;
+package com.example.vue.security.form;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

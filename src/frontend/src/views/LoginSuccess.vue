@@ -4,6 +4,7 @@
       <h3>{{msg}}</h3>
     </div>
     <div class="menu" ref="menu" @mousedown="mouseDown">≡</div>
+    <button type="button" @click="auth">인증</button>
     <div class="dropdown" v-if="state.isOpened">
       <a href="/">메인화면</a><br>
       <a href="/loginPage">로그인</a>
@@ -13,6 +14,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
+import axios from 'axios'
 
 export default {
   name: 'LoginSuccess',
@@ -22,11 +24,16 @@ export default {
     }
   },
   mounted () {
-    fetch('/api/userInfo')
+    fetch('/api/member/userInfo')
     .then((response) => response.text())
     .then((data) => {
       this.msg = data;
     })
+  },
+  methods: {
+    auth(){
+      axios.get('/api/member/hello')
+    }
   },
   setup() {
     const menu  = ref(null)

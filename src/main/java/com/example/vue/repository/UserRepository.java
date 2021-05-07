@@ -8,4 +8,5 @@ import com.example.vue.model.UserEntity;
 
 public interface UserRepository extends JpaRepository <UserEntity, Long> {
 	Optional<UserEntity> findByUserId(String username);
+	int countBySocialToken(String socialToken);
 }

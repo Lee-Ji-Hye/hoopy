@@ -1,12 +1,6 @@
 package com.example.vue.security;
 
-import java.util.Locale;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,18 +13,21 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.vue.service.UserService;
+import com.example.vue.security.form.CustomAuthenticationProvider;
+import com.example.vue.security.form.CustomUrlAuthenticationFailureHandler;
+import com.example.vue.security.form.CustomUrlAuthenticationSuccessHandler;
+import com.example.vue.security.oauth2.CustomOAuth2UserService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
-@Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserService userService;
+    //private final UserService userService;
+    
+    //private final CustomOAuth2UserService customOAuth2UserService;
     
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -91,9 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                     .exceptionHandling()
-                    .accessDeniedPage("/error")
-                .and()
-                	.sessionManagement().maximumSessions(1);
+                    .accessDeniedPage("/error");
         http.headers().frameOptions().disable();
     }
     

@@ -1,4 +1,4 @@
-package com.example.vue.security;
+package com.example.vue.security.form;
 
 import java.io.IOException;
 
