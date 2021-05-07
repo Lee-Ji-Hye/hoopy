@@ -2,6 +2,7 @@
   <div>
     <div>
       <h3>{{msg}}</h3>
+      <input type="hidden" id="token" v-model="token">
     </div>
     <div class="menu" ref="menu" @mousedown="mouseDown">≡</div>
     <button type="button" @click="auth">인증</button>
@@ -9,6 +10,7 @@
       <a href="/">메인화면</a><br>
       <a href="/loginPage">로그인</a>
     </div>
+    <button type="button" @click="logout">로그아웃</button>
   </div>
 </template>
 
@@ -20,7 +22,8 @@ export default {
   name: 'LoginSuccess',
   data () {
     return {
-      msg: ''
+      msg: '',
+      token: ''
     }
   },
   mounted () {
@@ -28,11 +31,27 @@ export default {
     .then((response) => response.text())
     .then((data) => {
       this.msg = data;
+    }),
+    fetch('/api/csrf-token')
+    .then((response) => response.text())
+    .then((data) => {
+      this.token = data;
     })
   },
   methods: {
     auth(){
       axios.get('/api/member/hello')
+    },
+    logout() {
+      axios.post('/logout', null, { 
+        headers: { 
+          'content-type': 'application/json',
+          'X-CSRF-TOKEN': this.token
+          //'Access-Control-Allow-Origin': '*'
+        }
+      }).then(response => {
+        console.log('response: ', response)
+      })
     }
   },
   setup() {
