@@ -1,37 +1,45 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Welcome from '../views/Welcome.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
+
+Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/welcome',
-    name: 'Welcome',
-    component: Welcome
-  },
-  {
-    path: '/loginSuccess',
-    name: 'LoginSuccess',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginSuccess.vue')
-  },
-  {
-    path: '/loginPage',
-    name: Login,
-    component: Login
-  }
-]
+	{
+		path: '/',
+		name: 'Home',
+		component: Home,
+	},
+	{
+		path: '/about',
+		name: 'About',
+		/* 방문시 로드
+		 * component: () => import(~) */
+		component: () =>
+			import(/* webpackChunkName: "about" */ '@/views/About.vue'),
+	},
+	{
+		path: '/loginForm',
+		name: 'LoginForm',
+		component: () => import('@/views/LoginForm.vue'),
+	},
+	{
+		path: '/mainHome',
+		name: 'MainHome',
+		component: () => import('@/views/MainHome.vue'),
+	},
+	{
+		/* 에러 페이지 */
+		path: '/*',
+		name: 'Error',
+		component: () => import('@/views/Error.vue'),
+	},
+];
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+const router = new VueRouter({
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes,
+});
 
-export default router
+export default router;
