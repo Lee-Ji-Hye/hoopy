@@ -7,6 +7,7 @@ module.exports = {
         ws: true,
         changeOrigin: true       
       }
-    }
+    },
+    overlay: false,
   }
 }
